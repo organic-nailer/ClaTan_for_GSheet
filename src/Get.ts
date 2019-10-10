@@ -1,24 +1,25 @@
-function getQAdata(): Object[] {
-    var sheet = SpreadsheetApp.getActiveSheet();
-    var header = sheet.getRange(1, 1, 1, 2);
-    var titleColumn = header.getValues()[0];
+function getQAdata(): object[] {
+    const sheet = SpreadsheetApp.getActiveSheet();
+    const header = sheet.getRange(1, 1, 1, 2);
+    const titleColumn = header.getValues()[0];
 
-    var lastRow = sheet.getLastRow();
-    var rowValues: string[][] = [];
-    for (var rowIndex = 2; rowIndex <= lastRow; rowIndex++) {
-        var colStartIndex = 1;
-        var rowNum = 1;
-        var range = sheet.getRange(rowIndex, colStartIndex, rowNum, 2);
-        var values = range.getValues();
+    const lastRow = sheet.getLastRow();
+    const rowValues: string[][] = [];
+    for (let rowIndex = 2; rowIndex <= lastRow; rowIndex++) {
+        const colStartIndex = 1;
+        const rowNum = 1;
+        const range = sheet.getRange(rowIndex, colStartIndex, rowNum, 2);
+        const values = range.getValues();
 
-        rowValues.push(values[0]);
+        if (values[0][0] != "") {
+            rowValues.push(values[0]);
+        }
     }
 
-    var jsonArray: Object[] = [];
-    for (var i = 0; i < rowValues.length; i++) {
-        var line = rowValues[i];
-        var json = new Object();
-        for (var j = 0; j < 2; j++) {
+    const jsonArray: object[] = [];
+    for (const line of rowValues) {
+        const json = new Object();
+        for (let j = 0; j < 2; j++) {
             json['"' + titleColumn[j] + '"'] = '"' + line[j] + '"';
         }
         jsonArray.push(json);
@@ -27,26 +28,28 @@ function getQAdata(): Object[] {
     return jsonArray;
 }
 
-function getHeader(): Object {
-    var sheet = SpreadsheetApp.getActiveSheet();
-    var header = sheet.getRange(1, 1, 1, 2);
-    var titleColumn = header.getValues()[0];
+function getHeader(): object {
+    const sheet = SpreadsheetApp.getActiveSheet();
+    const header = sheet.getRange(1, 1, 1, 2);
+    const titleColumn = header.getValues()[0];
 
-    var json = Object();
-    for (var i = 0; i < titleColumn.length; i++) {
-        json['"' + i + '"'] = '"' + titleColumn[i] + '"';
-    }
+    const json = Object();
 
-    json["index"] = titleColumn;
-    json["title"] = sheet.getName();
+    json.index = titleColumn;
+    json.title = sheet.getName();
+    json.type = sheet.getRange("D19").getValue();
+    json.author = sheet.getRange("D21").getValue();
+    json.description = sheet.getRange("D23").getValue();
+    json.version = sheet.getRange("D25").getValue();
+    json.manageid = sheet.getRange("D27").getValue();
 
     return json;
 }
 
-//TODO: nullだったときに新しくuuidを生成して返す
-function getId() : String{
-    var currentId : String = SpreadsheetApp.getActiveSheet().getRange(8, 4).getValue();
-    if(currentId == ""){
+// TODO: nullだったときに新しくuuidを生成して返す
+function getId(): string {
+    let currentId: string = SpreadsheetApp.getActiveSheet().getRange(8, 4).getValue();
+    if (currentId === "") {
         currentId = getUUID();
     }
     updateQR(currentId);

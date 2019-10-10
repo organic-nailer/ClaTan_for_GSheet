@@ -1,20 +1,14 @@
 function createFirestore() {
-    var data = getQAdata();
+    const data = getQAdata();
 
-    if(data.length < 2){
+    if (data.length < 2){
         Browser.msgBox("データが少なすぎます。", Browser.Buttons.OK);
         return;
     }
 
-    var dataArray = firestoreData();
+    const dataArray = firestoreData();
 
-    Logger.log("\n email:")
-    Logger.log(dataArray.email);
-    Logger.log("\n key:")
-    Logger.log(dataArray.key);
-    Logger.log("\n projectId:")
-    Logger.log(dataArray.projectId);
-    var firestore = FirestoreApp.getFirestore(dataArray.email, dataArray.key, dataArray.projectId);
+    const firestore = FirestoreApp.getFirestore(dataArray.email, dataArray.key, dataArray.projectId);
 
     firestore.createDocument("QACollection/QAdata", data);
 
@@ -22,41 +16,40 @@ function createFirestore() {
 }
 
 function updateFirestore() {
-    var data = getQAdata();
+    const data = getQAdata();
     Logger.log(data);
 
-    if(data.length < 2){
+    if (data.length < 2){
         Browser.msgBox("データが少なすぎます。", Browser.Buttons.OK);
         return;
     }
 
-    var dataArray = firestoreData();
-    var firestore = FirestoreApp.getFirestore(dataArray.email, dataArray.key, dataArray.projectId);
+    const dataArray = firestoreData();
+    const firestore = FirestoreApp.getFirestore(dataArray.email, dataArray.key, dataArray.projectId);
 
     firestore.updateDocument("QACollection/QAdata", data);
 }
 
 function syncFirestore() {
-    var data = getQAdata();
-    var headerData = getHeader();
+    const data = getQAdata();
+    const headerData = getHeader();
 
     if (data.length < 2) {
         Browser.msgBox("データが少なすぎます。", Browser.Buttons.OK);
         return;
     }
 
-    var dataArray = firestoreData();
-    var firestore = FirestoreApp.getFirestore(dataArray.email, dataArray.key, dataArray.projectId);
+    const dataArray = firestoreData();
+    const firestore = FirestoreApp.getFirestore(dataArray.email, dataArray.key, dataArray.projectId);
 
-    var id = getId();
+    const id = getId();
 
-    try{
+    try {
         firestore.getDocument("QACollection/" + id);
 
-        firestore.updateDocument("QACollection/"+ id, data);
-        firestore.updateDocument("QAHeaders/"+ id, headerData);
-    }
-    catch(e){
+        firestore.updateDocument("QACollection/" + id, data);
+        firestore.updateDocument("QAHeaders/" + id, headerData);
+    } catch (e) {
         firestore.createDocument("QACollection/" + id, data);
 
         firestore.createDocument("QAHeaders/" + id, headerData);
@@ -64,13 +57,15 @@ function syncFirestore() {
 }
 
 function deleteQA() {
-    var dataArray = firestoreData();
-    var firestore = FirestoreApp.getFirestore(dataArray.email, dataArray.key, dataArray.projectId);
+    const dataArray = firestoreData();
+    const firestore = FirestoreApp.getFirestore(dataArray.email, dataArray.key, dataArray.projectId);
 
-    var id = getId();
+    const id = getId();
 
-    try{
+    try {
         firestore.deleteDocument("QACollection/" + id);
         firestore.deleteDocument("QAHeaders/" + id);
-    } catch(e) {  }
+    } catch (e) { 
+
+    }
 }
