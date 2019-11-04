@@ -48,7 +48,7 @@ function getHeader(): object {
 
 // TODO: nullだったときに新しくuuidを生成して返す
 function getId(): string {
-    let currentId: string = SpreadsheetApp.getActiveSheet().getRange(8, 4).getValue();
+    let currentId: string = SpreadsheetApp.getActiveSheet().getRange("D2").getValue();
     if (currentId === "") {
         currentId = getUUID();
     }

@@ -96,11 +96,14 @@ function createNewSheet() {
 
     ss.insertSheet();
     pigmentSheet();
+    setProtect();
 }
 
 function updateQR(id: string) {
     const sheet = SpreadsheetApp.getActiveSheet();
     const url = "https://clatan.fastriver.dev/#/?id=" + id;
+
+    deleteAllImage();
 
 
     sheet.insertImage("https://chart.apis.google.com/chart?chs=450x450&cht=qr&chl=" + encodeURIComponent(url), 4, 5,5,5)
@@ -109,4 +112,22 @@ function updateQR(id: string) {
 
     sheet.getRange("D4").setValue(url);
     sheet.getRange("D2").setValue(id);
+}
+
+function deleteQR() {
+    const sheet = SpreadsheetApp.getActiveSheet();
+    
+    sheet.getRange("D4").setValue("");
+    sheet.getRange("D2").setValue("");
+
+    deleteAllImage();
+}
+
+function deleteAllImage() {
+    const sheet = SpreadsheetApp.getActiveSheet();
+    const imgs = sheet.getImages();
+
+    for (var i = 0; i < imgs.length; i++) {
+        imgs[i].remove();
+    }
 }

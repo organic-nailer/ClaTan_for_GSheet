@@ -65,7 +65,11 @@ function deleteQA() {
     try {
         firestore.deleteDocument("QACollection/" + id);
         firestore.deleteDocument("QAHeaders/" + id);
-    } catch (e) { 
 
+        deleteQR();
+
+        Browser.msgBox("削除しました", Browser.Buttons.OK);
+    } catch (e) { 
+        Browser.msgBox("削除できませんでした", Browser.Buttons.OK);
     }
 }
