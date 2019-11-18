@@ -45,7 +45,11 @@ function syncFirestore() {
     const id = getId();
 
     try {
-        firestore.getDocument("QACollection/" + id);
+        const oldData: QAHeader = firestore.getDocument("QAHeaders/" + id).fields;
+
+        if(oldData != null && oldData.createdAt != null) {
+            headerData.createdAt = oldData.createdAt;
+        }
 
         firestore.updateDocument("QACollection/" + id, data);
         firestore.updateDocument("QAHeaders/" + id, headerData);

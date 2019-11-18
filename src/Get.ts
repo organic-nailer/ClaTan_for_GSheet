@@ -1,3 +1,16 @@
+interface QAHeader {
+    author: string,
+    description: string,
+    index: string[],
+    manageid: string,
+    title: string,
+    type: number,
+    version: string,
+    public: boolean,
+    createdAt: Date,
+    updatedAt: Date
+}
+
 function getQAdata(): object[] {
     const sheet = SpreadsheetApp.getActiveSheet();
     const header = sheet.getRange(1, 1, 1, 2);
@@ -28,22 +41,25 @@ function getQAdata(): object[] {
     return jsonArray;
 }
 
-function getHeader(): object {
+function getHeader(): QAHeader {
     const sheet = SpreadsheetApp.getActiveSheet();
     const header = sheet.getRange(1, 1, 1, 2);
     const titleColumn = header.getValues()[0];
 
-    const json = Object();
+    var headData: QAHeader = {
+        author: sheet.getRange("D21").getValue(),
+        description: sheet.getRange("D23").getValue(),
+        index: titleColumn,
+        manageid: sheet.getRange("D27").getValue(),
+        title: sheet.getName(),
+        type: sheet.getRange("D19").getValue(),
+        version: sheet.getRange("D25").getValue(),
+        public: sheet.getRange("D29").getValue() == "1",
+        createdAt: null,
+        updatedAt: null
+    }
 
-    json.index = titleColumn;
-    json.title = sheet.getName();
-    json.type = sheet.getRange("D19").getValue();
-    json.author = sheet.getRange("D21").getValue();
-    json.description = sheet.getRange("D23").getValue();
-    json.version = sheet.getRange("D25").getValue();
-    json.manageid = sheet.getRange("D27").getValue();
-
-    return json;
+    return headData;
 }
 
 // TODO: nullだったときに新しくuuidを生成して返す
