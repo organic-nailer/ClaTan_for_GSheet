@@ -47,6 +47,14 @@ function syncFirestore() {
     try {
         const oldData: QAHeader = firestore.getDocument("QAHeaders/" + id).fields;
 
+        if(headerData.public && (oldData != null && !oldData.public)) {
+            const res = Browser.msgBox("一度「全体公開」にした場合取り消せませんが、よろしいですか？", Browser.Buttons.YES_NO);
+
+            if(res == "no") {
+                return;
+            }
+        }
+
         if(oldData != null && oldData.createdAt != null) {
             headerData.createdAt = oldData.createdAt;
         }

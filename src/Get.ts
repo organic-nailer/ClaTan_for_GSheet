@@ -7,6 +7,7 @@ interface QAHeader {
     type: number,
     version: string,
     public: boolean,
+    disclosure: boolean,
     createdAt: Date,
     updatedAt: Date
 }
@@ -55,6 +56,7 @@ function getHeader(): QAHeader {
         type: sheet.getRange("D19").getValue(),
         version: sheet.getRange("D25").getValue(),
         public: sheet.getRange("D29").getValue() == "1",
+        disclosure: sheet.getRange("D31").getValue() == "1",
         createdAt: null,
         updatedAt: null
     }

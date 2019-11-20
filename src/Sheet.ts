@@ -23,7 +23,7 @@ function pigmentSheet() {
         SpreadsheetApp.BorderStyle.SOLID
     );
 
-    var rangeInfoHeader = sheet.getRange("D1:L29");
+    var rangeInfoHeader = sheet.getRange("D1:L31");
     rangeInfoHeader.setBackground(accentLight);
 
     for(var i = 2; i <= 4; i += 2){
@@ -31,7 +31,7 @@ function pigmentSheet() {
         rangeInfo.setBackground(primaryAir);
     }
 
-    for(var i = 19; i <= 29; i += 2){
+    for(var i = 19; i <= 31; i += 2){
         var rangeInfo = sheet.getRange("D" + i + ":L" + i);
         rangeInfo.setBackground(primaryAir);
     }
@@ -42,7 +42,7 @@ function pigmentSheet() {
         SpreadsheetApp.BorderStyle.SOLID
     );
 
-    sheet.getRange("D18:D29")
+    sheet.getRange("D18:D31")
         .setBorder(
             true, true, true, true, true, true, "#000000",
             SpreadsheetApp.BorderStyle.SOLID
@@ -61,7 +61,7 @@ function setLabelsSheet() {
             ["共有URL", "問題共有用のURLとQRです"]
         ]);
 
-    sheet.getRange("D18:E28").setValues(
+    sheet.getRange("D18:E30").setValues(
         [
             ["問題タイプ",""],
             ["1",""],
@@ -73,7 +73,9 @@ function setLabelsSheet() {
             ["",""],
             ["管理キー", "問題の管理に使用する任意の文字列です。空白だと誰でも削除できるようになります"],
             ["",""],
-            ["公開/限定公開","1だと公開(IDを知らない人でもアクセスできる)、他だと限定公開(IDを知っている人のみ)"]
+            ["公開/限定公開","1だと公開(IDを知らない人でもアクセスできる)、他だと限定公開(IDを知っている人のみ)"],
+            ["",""],
+            ["問題の開示","1だと開示(解答前に答えが見られる)、他だと非開示(答えが見られない)"]
         ]
     );
 }
@@ -90,7 +92,8 @@ function setProtect() {
             sheet.getRange("D23"),
             sheet.getRange("D25"),
             sheet.getRange("D27"),
-            sheet.getRange("D29")
+            sheet.getRange("D29"),
+            sheet.getRange("D31")
         ]);
 }
 
